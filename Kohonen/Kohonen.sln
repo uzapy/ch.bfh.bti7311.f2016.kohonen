@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kohonen.WPF", "Kohonen.WPF\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kohonen.Data", "Kohonen.Data\Kohonen.Data.csproj", "{3CC7AB97-2A80-4D3D-B3CD-599E64A3D00F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kohonen.Lib", "Kohonen.Lib\Kohonen.Lib.csproj", "{C0770A16-6B82-4ABD-9651-CEE4D4655C97}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{3CC7AB97-2A80-4D3D-B3CD-599E64A3D00F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CC7AB97-2A80-4D3D-B3CD-599E64A3D00F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3CC7AB97-2A80-4D3D-B3CD-599E64A3D00F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0770A16-6B82-4ABD-9651-CEE4D4655C97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0770A16-6B82-4ABD-9651-CEE4D4655C97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0770A16-6B82-4ABD-9651-CEE4D4655C97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0770A16-6B82-4ABD-9651-CEE4D4655C97}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

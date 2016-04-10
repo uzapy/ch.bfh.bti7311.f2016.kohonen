@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using Kohonen.Lib;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 
 namespace Kohonen.WPF
 {
@@ -15,9 +8,13 @@ namespace Kohonen.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        private SelfOrganizingMap map = new SelfOrganizingMap();
+
         public MainWindow()
         {
             InitializeComponent();
+
+            map.GenerateRegularMap(32);
         }
     }
 }

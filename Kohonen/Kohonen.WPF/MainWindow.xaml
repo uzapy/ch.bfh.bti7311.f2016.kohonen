@@ -9,6 +9,6 @@
     </Window.Resources>
     
     <Grid>
-        
+        <Canvas x:Name="networkCanvas" Background="Transparent" />
     </Grid>
 </Window>

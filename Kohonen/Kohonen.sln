@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kohonen.WPF", "Kohonen.WPF\Kohonen.WPF.csproj", "{6B33B9D0-80E9-4505-BBC4-D305FD5CECCA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kohonen.Data", "Kohonen.Data\Kohonen.Data.csproj", "{3CC7AB97-2A80-4D3D-B3CD-599E64A3D00F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6B33B9D0-80E9-4505-BBC4-D305FD5CECCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B33B9D0-80E9-4505-BBC4-D305FD5CECCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B33B9D0-80E9-4505-BBC4-D305FD5CECCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B33B9D0-80E9-4505-BBC4-D305FD5CECCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CC7AB97-2A80-4D3D-B3CD-599E64A3D00F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CC7AB97-2A80-4D3D-B3CD-599E64A3D00F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CC7AB97-2A80-4D3D-B3CD-599E64A3D00F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CC7AB97-2A80-4D3D-B3CD-599E64A3D00F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

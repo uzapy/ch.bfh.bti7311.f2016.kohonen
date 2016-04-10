@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="Iris">
+  <DataContextMoniker Name="/IrisDataContext" />
+  <nestedChildShapes>
+    <classShape Id="b5d028ac-29d6-49df-84be-b6b791b5a533" absoluteBounds="2.625, 2.625, 2, 1.9631982421875">
+      <DataClassMoniker Name="/IrisDataContext/Iri" />
+      <nestedChildShapes>
+        <elementListCompartment Id="9d81216e-56b6-46d1-9ebe-804024453830" absoluteBounds="2.64, 3.085, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

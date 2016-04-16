@@ -33,7 +33,7 @@ namespace Kohonen.Lib
                             .Where(n => n.Attributes["y"] == neuron.Attributes["y"] - 1 && n.Attributes["x"] == neuron.Attributes["x"])
                             .FirstOrDefault();
 
-                        neuron.AddNeighbour(180, neighbor1);
+                        neuron.AddAxons(180, neighbor1);
                     }
 
                     if (x > 0 && x < size)
@@ -42,7 +42,7 @@ namespace Kohonen.Lib
                             .Where(n => n.Attributes["y"] == neuron.Attributes["y"] && n.Attributes["x"] == neuron.Attributes["x"] - 1)
                             .FirstOrDefault();
 
-                        neuron.AddNeighbour(90, neighbor2);
+                        neuron.AddAxons(90, neighbor2);
                     }
                 }
             }

@@ -6,8 +6,8 @@ namespace Kohonen.Lib
     public class Neuron
     {
         private int id;
-        private Dictionary<double, Neuron> neigbours = new Dictionary<double, Neuron>();
         private Dictionary<string, double> attributes = new Dictionary<string, double>();
+        private List<Axon> axons = new List<Axon>();
 
         public Neuron(int id, Dictionary<string, double> attributes)
         {
@@ -19,12 +19,13 @@ namespace Kohonen.Lib
 
         public Dictionary<string, double> Attributes { get { return attributes; } }
 
-        public Dictionary<double, Neuron> Neighbours { get { return neigbours; } }
+        public List<Axon> Axons { get { return axons; } }
 
-        internal void AddNeighbour(int angle, Neuron n)
+        internal void AddAxons(int angle, Neuron n)
         {
-            neigbours.Add(angle, n);
-            n.Neighbours.Add((angle + 180) % 360, this);
+            Axon axon = new Axon(angle, this, n);
+            Axons.Add(axon);
+            n.Axons.Add(axon);
         }
     }
 }

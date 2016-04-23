@@ -35,24 +35,22 @@ namespace Kohonen.Lib
         {
             get
             {
-                return Attributes.ContainsKey("x") ? Attributes["x"] * 30 + 30 : 0;
+                return Attributes.ContainsKey("x") ? Attributes["x"]: 0;
             }
             set
             {
-                double normalizedValue = (value - 30) / 30;
-                Attributes["x"] = normalizedValue;
+                Attributes["x"] = value;
             }
         }
         public double Y
         {
             get
             {
-                return Attributes.ContainsKey("y") ? Attributes["y"] * 30 + 30 : 0;
+                return Attributes.ContainsKey("y") ? Attributes["y"] : 0;
             }
             set
             {
-                double normalizedValue = (value - 30) / 30;
-                Attributes["y"] = normalizedValue;
+                Attributes["y"] = value;
             }
         }
 

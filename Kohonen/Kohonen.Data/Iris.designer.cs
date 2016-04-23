@@ -30,9 +30,9 @@ namespace Kohonen.Data
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertIri(Iri instance);
-    partial void UpdateIri(Iri instance);
-    partial void DeleteIri(Iri instance);
+    partial void InsertIris(Iris instance);
+    partial void UpdateIris(Iris instance);
+    partial void DeleteIris(Iris instance);
     #endregion
 		
 		public IrisDataContext() : 
@@ -65,17 +65,17 @@ namespace Kohonen.Data
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<Iri> Iris
+		public System.Data.Linq.Table<Iris> Iris
 		{
 			get
 			{
-				return this.GetTable<Iri>();
+				return this.GetTable<Iris>();
 			}
 		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Iris")]
-	public partial class Iri : INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class Iris : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -110,7 +110,7 @@ namespace Kohonen.Data
     partial void OnSpeciesChanged();
     #endregion
 		
-		public Iri()
+		public Iris()
 		{
 			OnCreated();
 		}

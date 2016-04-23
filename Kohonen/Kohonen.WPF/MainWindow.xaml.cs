@@ -1,4 +1,5 @@
 ﻿using Kohonen.Lib;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 
@@ -14,6 +15,13 @@ namespace Kohonen.WPF
         public MainWindow()
         {
             InitializeComponent();
+
+            map.LoadSampleData();
+
+            foreach (IrisLib i in map.IrisLib)
+            {
+                networkGrid.Children.Add(i.Ellipse);
+            }
 
             map.GenerateRegularMap(16);
 

@@ -6,9 +6,9 @@ namespace Kohonen.Lib
     public class Axon
     {
         private int angle;
-        private Neuron neuronB;
         private Neuron neuronA;
-        private Line line = new Line();
+        private Neuron neuronB;
+        private Line line;
 
         public Axon(int angle, Neuron neuronA, Neuron neuronB)
         {
@@ -17,6 +17,7 @@ namespace Kohonen.Lib
             // (angle + 180) % 360,
             this.neuronB = neuronB;
 
+            line = new Line();
             line.Stroke = Brushes.Black;
             line.StrokeThickness = 3;
             line.X1 = neuronA.X + 10;

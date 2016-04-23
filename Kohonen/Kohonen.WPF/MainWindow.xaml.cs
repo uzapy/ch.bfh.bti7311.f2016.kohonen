@@ -18,7 +18,7 @@ namespace Kohonen.WPF
 
             map.GenerateRegularMap(16);
 
-            foreach (Neuron n in map.Map)
+            foreach (Neuron n in map.NeuronMap)
             {
                 networkCanvas.Children.Add(n.Ellipse);
                 Canvas.SetTop(n.Ellipse, n.X);
@@ -42,9 +42,11 @@ namespace Kohonen.WPF
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Neuron n = map.Map.Where(m => m.ID == 30).FirstOrDefault();
+            Neuron n = map.NeuronMap.Where(m => m.ID == 30).FirstOrDefault();
             n.X += 10;
             n.Y += 10;
+            Canvas.SetTop(n.Ellipse, n.X);
+            Canvas.SetLeft(n.Ellipse, n.Y);
         }
     }
 }

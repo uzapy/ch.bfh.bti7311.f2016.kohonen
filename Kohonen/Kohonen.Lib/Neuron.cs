@@ -52,7 +52,7 @@ namespace Kohonen.Lib
             }
         }
 
-        internal void AddAxons(int angle, Neuron n)
+        internal void AddAxon(int angle, Neuron n)
         {
             Axon axon = new Axon(angle, this, n);
             Axons.Add(axon);

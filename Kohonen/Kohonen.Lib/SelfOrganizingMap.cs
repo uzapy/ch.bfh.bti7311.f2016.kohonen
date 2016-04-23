@@ -9,7 +9,7 @@ namespace Kohonen.Lib
         private IrisDataContext dataContext = new IrisDataContext();
         private HashSet<Neuron> map = new HashSet<Neuron>();
 
-        public HashSet<Neuron> Map { get { return map; } }
+        public HashSet<Neuron> NeuronMap { get { return map; } }
 
         public void GenerateRegularMap(int size)
         {
@@ -33,7 +33,7 @@ namespace Kohonen.Lib
                             .Where(n => n.Attributes["y"] == neuron.Attributes["y"] - 1 && n.Attributes["x"] == neuron.Attributes["x"])
                             .FirstOrDefault();
 
-                        neuron.AddAxons(180, neighbor1);
+                        neuron.AddAxon(180, neighbor1);
                     }
 
                     if (x > 0 && x < size)
@@ -42,7 +42,7 @@ namespace Kohonen.Lib
                             .Where(n => n.Attributes["y"] == neuron.Attributes["y"] && n.Attributes["x"] == neuron.Attributes["x"] - 1)
                             .FirstOrDefault();
 
-                        neuron.AddAxons(90, neighbor2);
+                        neuron.AddAxon(90, neighbor2);
                     }
                 }
             }

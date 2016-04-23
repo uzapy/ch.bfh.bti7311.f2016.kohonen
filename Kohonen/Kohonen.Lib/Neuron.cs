@@ -10,14 +10,17 @@ namespace Kohonen.Lib
         public const int RADIUS = 7;
 
         private int id;
+        private double x;
+        private double y;
         private Dictionary<string, double> attributes = new Dictionary<string, double>();
         private List<Axon> axons = new List<Axon>();
         private Ellipse ellipse = new Ellipse();
 
-        public Neuron(int id, Dictionary<string, double> attributes)
+        public Neuron(int id, double x, double y)
         {
             this.id = id;
-            this.attributes = attributes;
+            this.x = x;
+            this.y = y;
 
             ellipse.Height = Neuron.RADIUS * 2;
             ellipse.Width = Neuron.RADIUS * 2;
@@ -33,25 +36,13 @@ namespace Kohonen.Lib
         public Ellipse Ellipse { get { return ellipse; } }
         public double X
         {
-            get
-            {
-                return Attributes.ContainsKey("x") ? Attributes["x"]: 0;
-            }
-            set
-            {
-                Attributes["x"] = value;
-            }
+            get { return x; }
+            set { x = value; }
         }
         public double Y
         {
-            get
-            {
-                return Attributes.ContainsKey("y") ? Attributes["y"] : 0;
-            }
-            set
-            {
-                Attributes["y"] = value;
-            }
+            get { return y; }
+            set { y = value; }
         }
 
         public void Move(double x, double y)

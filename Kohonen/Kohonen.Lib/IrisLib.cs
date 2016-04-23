@@ -1,5 +1,4 @@
 ﻿using Kohonen.Data;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -11,29 +10,27 @@ namespace Kohonen.Lib
         public const int RADIUS = 10;
 
         private Iris iris;
-        //private Dictionary<string, double> attributes;
+        private double x;
+        private double y;
         private Ellipse ellipse;
 
-        public IrisLib(Iris iris)
+        public IrisLib(Iris iris, double x, double y)
         {
             this.iris = iris;
+            this.x = x;
+            this.y = y;
         }
 
-        //public Dictionary<string, double> Attributes
-        //{
-        //    get
-        //    {
-        //        if (attributes == null)
-        //        {
-        //            attributes = new Dictionary<string, double>();
-        //            attributes.Add(nameof(iris.SepalLength), iris.SepalLength);
-        //            attributes.Add(nameof(iris.SepalWidth), iris.SepalWidth);
-        //            attributes.Add(nameof(iris.PetalLength), iris.PetalLength);
-        //            attributes.Add(nameof(iris.PetalWidth), iris.PetalWidth);
-        //        }
-        //        return attributes;
-        //    }
-        //}
+        public double X
+        {
+            get { return x; }
+            set { x = value; }
+        }
+        public double Y
+        {
+            get { return y; }
+            set { y = value; }
+        }
 
         public Ellipse Ellipse
         {
@@ -59,7 +56,7 @@ namespace Kohonen.Lib
                     ellipse.Opacity = 0.5;
                     ellipse.HorizontalAlignment = HorizontalAlignment.Left;
                     ellipse.VerticalAlignment = VerticalAlignment.Top;
-                    ellipse.Margin = new  Thickness(iris.PetalWidth * 100, iris.SepalLength * 100, 0, 0);
+                    ellipse.Margin = new Thickness(X, Y, 0, 0);
                 }
                 return ellipse;
             }

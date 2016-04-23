@@ -15,9 +15,20 @@ namespace Kohonen.Lib
 
         public void LoadSampleData()
         {
+            double sepalLengthMin = dataContext.Iris.Min(i => i.SepalLength);
+            double sepalLengthMax = dataContext.Iris.Max(i => i.SepalLength);
+            double sepalWidthMin = dataContext.Iris.Min(i => i.SepalWidth);
+            double sepalWidthMax = dataContext.Iris.Max(i => i.SepalWidth);
+            double petalLengthMin = dataContext.Iris.Min(i => i.PetalLength);
+            double petalLengthMax = dataContext.Iris.Max(i => i.PetalLength);
+            double petalWidthMin = dataContext.Iris.Min(i => i.PetalWidth);
+            double petalWidthMax = dataContext.Iris.Max(i => i.PetalWidth);
+
             foreach (Kohonen.Data.Iris i in dataContext.Iris)
             {
-                irisData.Add(new IrisLib(i));
+                double x = (i.PetalLength - petalLengthMin) * (1000 / (petalLengthMax - petalLengthMin));
+                double y = (i.SepalLength - sepalLengthMin) * (1000 / (sepalLengthMax - sepalLengthMin));
+                irisData.Add(new IrisLib(i, x, y));
             }
         }
 
@@ -30,29 +41,19 @@ namespace Kohonen.Lib
             {
                 for (int y = 0; y < size; y++)
                 {
-                    Dictionary<string, double> attributes = new Dictionary<string, double>();
-                    attributes.Add("x", x * step + 15);
-                    attributes.Add("y", y * step + 15);
-
-                    Neuron neuron = new Neuron(id, attributes);
+                    Neuron neuron = new Neuron(id, x * step + 30, y * step + 30);
                     id++;
                     neuronMap.Add(neuron);
 
                     if (y > 0 && y < size)
                     {
-                        Neuron neighbor1 = neuronMap
-                            .Where(n => n.Attributes["y"] == neuron.Attributes["y"] - step && n.Attributes["x"] == neuron.Attributes["x"])
-                            .FirstOrDefault();
-
+                        Neuron neighbor1 = neuronMap.Where(n => n.Y == neuron.Y - step && n.X == neuron.X).FirstOrDefault();
                         neuron.AddAxon(180, neighbor1);
                     }
 
                     if (x > 0 && x < size)
                     {
-                        Neuron neighbor2 = neuronMap
-                            .Where(n => n.Attributes["y"] == neuron.Attributes["y"] && n.Attributes["x"] == neuron.Attributes["x"] - step)
-                            .FirstOrDefault();
-
+                        Neuron neighbor2 = neuronMap.Where(n => n.Y == neuron.Y && n.X == neuron.X - step).FirstOrDefault();
                         neuron.AddAxon(90, neighbor2);
                     }
                 }

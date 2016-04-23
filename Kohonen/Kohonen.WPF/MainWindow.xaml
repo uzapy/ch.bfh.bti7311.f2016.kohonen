@@ -16,6 +16,6 @@
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Button Content="Click" Width="100" Click="Button_Click" />
         </StackPanel>
-        <Canvas Grid.Row="1" x:Name="networkCanvas" Background="Transparent" />
+        <Grid x:Name="networkGrid" Grid.Row="1"></Grid>
     </Grid>
 </Window>

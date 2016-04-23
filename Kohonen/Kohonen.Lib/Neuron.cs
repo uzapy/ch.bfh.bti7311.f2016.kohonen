@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -6,7 +7,7 @@ namespace Kohonen.Lib
 {
     public class Neuron
     {
-        public const int RADIUS = 10;
+        public const int RADIUS = 7;
 
         private int id;
         private Dictionary<string, double> attributes = new Dictionary<string, double>();
@@ -21,6 +22,9 @@ namespace Kohonen.Lib
             ellipse.Height = Neuron.RADIUS * 2;
             ellipse.Width = Neuron.RADIUS * 2;
             ellipse.Fill = Brushes.Black;
+            ellipse.HorizontalAlignment = HorizontalAlignment.Left;
+            ellipse.VerticalAlignment = VerticalAlignment.Top;
+            ellipse.Margin = new Thickness(X, Y, 0, 0);
         }
 
         public int ID { get { return id; } }
@@ -31,7 +35,7 @@ namespace Kohonen.Lib
         {
             get
             {
-                return attributes.ContainsKey("x") ? attributes["x"] * 30 + 30 : 0;
+                return Attributes.ContainsKey("x") ? Attributes["x"] * 30 + 30 : 0;
             }
             set
             {
@@ -43,12 +47,24 @@ namespace Kohonen.Lib
         {
             get
             {
-                return attributes.ContainsKey("y") ? attributes["y"] * 30 + 30 : 0;
+                return Attributes.ContainsKey("y") ? Attributes["y"] * 30 + 30 : 0;
             }
             set
             {
                 double normalizedValue = (value - 30) / 30;
                 Attributes["y"] = normalizedValue;
+            }
+        }
+
+        public void Move(double x, double y)
+        {
+            X += x;
+            Y += y;
+            Ellipse.Margin = new Thickness(X, Y, 0, 0);
+
+            foreach (Axon a in Axons)
+            {
+                a.UpdateNeuronPosition(ID);
             }
         }
 

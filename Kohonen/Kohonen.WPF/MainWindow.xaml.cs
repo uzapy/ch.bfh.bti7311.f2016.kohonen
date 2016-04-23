@@ -1,5 +1,4 @@
 ﻿using Kohonen.Lib;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 
@@ -36,10 +35,15 @@ namespace Kohonen.WPF
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Play(object sender, RoutedEventArgs e)
         {
             Neuron n = map.NeuronMap.Where(m => m.ID == 30).FirstOrDefault();
             n.Move(10, 10);
+        }
+
+        private void Button_Step(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

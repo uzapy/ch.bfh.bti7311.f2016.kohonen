@@ -26,8 +26,8 @@ namespace Kohonen.Data.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\DataSets.mdf;" +
-            "Integrated Security=True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Projekte_GitHub\\ch.bfh.bti" +
+            "7311.f2016.kohonen\\Kohonen\\Kohonen.Data\\DataSets.mdf;Integrated Security=True")]
         public string DataSetsConnectionString {
             get {
                 return ((string)(this["DataSetsConnectionString"]));

@@ -53,7 +53,7 @@ namespace Kohonen.Lib
                             ellipse.Fill = Brushes.Green;
                             break;
                     }
-                    ellipse.Opacity = 0.5;
+                    ellipse.Opacity = 0.333;
                     ellipse.HorizontalAlignment = HorizontalAlignment.Left;
                     ellipse.VerticalAlignment = VerticalAlignment.Top;
                     ellipse.Margin = new Thickness(X, Y, 0, 0);

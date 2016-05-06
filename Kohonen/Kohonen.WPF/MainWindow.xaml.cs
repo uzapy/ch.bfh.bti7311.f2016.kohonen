@@ -10,6 +10,7 @@ namespace Kohonen.WPF
     public partial class MainWindow : Window
     {
         private SelfOrganizingMap map = new SelfOrganizingMap();
+        private bool isRunning = false;
 
         public MainWindow()
         {

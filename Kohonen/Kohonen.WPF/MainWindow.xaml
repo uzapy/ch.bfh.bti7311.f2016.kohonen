@@ -14,8 +14,8 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <Button Content="Play" Width="100" Click="Button_Play" />
-            <Button Content="Step" Width="100" Click="Button_Step" />
+            <Button x:Name="Play" Content="Play" Width="100" Click="Button_Play" />
+            <Button x:Name="Step" Content="Step" Width="100" Click="Button_Step" />
         </StackPanel>
         <Grid x:Name="networkGrid" Grid.Row="1" Height="1000" Width="1000" Background="AliceBlue"></Grid>
     </Grid>

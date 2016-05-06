@@ -1,4 +1,5 @@
-﻿using System.Windows.Media;
+﻿using System;
+using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace Kohonen.Lib
@@ -43,6 +44,11 @@ namespace Kohonen.Lib
                 Line.X2 = NeuronB.X + Neuron.RADIUS;
                 Line.Y2 = NeuronB.Y + Neuron.RADIUS;
             }
+        }
+
+        internal Neuron GetNeighbourOf(int neuronID)
+        {
+            return NeuronA.ID == neuronID ? NeuronB : NeuronA;
         }
     }
 }

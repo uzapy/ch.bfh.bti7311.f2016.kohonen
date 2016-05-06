@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -12,9 +13,9 @@ namespace Kohonen.Lib
         private int id;
         private double x;
         private double y;
-        private Dictionary<string, double> attributes = new Dictionary<string, double>();
-        private List<Axon> axons = new List<Axon>();
+        private bool hasMoved = false;
         private Ellipse ellipse = new Ellipse();
+        private List<Axon> axons = new List<Axon>();
 
         public Neuron(int id, double x, double y)
         {
@@ -31,9 +32,6 @@ namespace Kohonen.Lib
         }
 
         public int ID { get { return id; } }
-        public Dictionary<string, double> Attributes { get { return attributes; } }
-        public List<Axon> Axons { get { return axons; } }
-        public Ellipse Ellipse { get { return ellipse; } }
         public double X
         {
             get { return x; }
@@ -43,6 +41,25 @@ namespace Kohonen.Lib
         {
             get { return y; }
             set { y = value; }
+        }
+        public bool HasMoved
+        {
+            get { return hasMoved; }
+            set { hasMoved = value; }
+        }
+        public Ellipse Ellipse { get { return ellipse; } }
+        public List<Axon> Axons { get { return axons; } }
+        public List<Neuron> Neighbours
+        {
+            get
+            {
+                List<Neuron> neighbours = new List<Neuron>();
+                foreach (Axon a in Axons)
+                {
+                    neighbours.Add(a.GetNeighbourOf(ID));
+                }
+                return neighbours;
+            }
         }
 
         public void Move(double x, double y)
@@ -62,6 +79,34 @@ namespace Kohonen.Lib
             Axon axon = new Axon(angle, this, n);
             Axons.Add(axon);
             n.Axons.Add(axon);
+        }
+
+        internal void MarkAsCurrent()
+        {
+            ellipse.Fill = Brushes.Aqua;
+            ellipse.Stroke = Brushes.Black;
+        }
+
+        internal void UnmarkAsCurrent()
+        {
+            ellipse.Fill = Brushes.Black;
+            ellipse.Stroke = null;
+        }
+
+        internal void UpdatePosition(IrisLib iris, double learningRate)
+        {
+            if (!HasMoved && learningRate > 0.1)
+            {
+                HasMoved = true;
+                double deltaX = -(learningRate * (X - iris.X));
+                double deltaY = -(learningRate * (Y - iris.Y));
+                Move(deltaX, deltaY);
+
+                foreach (Neuron n in Neighbours)
+                {
+                    n.UpdatePosition(iris, learningRate * 0.5);
+                }
+            }
         }
     }
 }

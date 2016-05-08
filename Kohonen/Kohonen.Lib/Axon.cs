@@ -21,10 +21,10 @@ namespace Kohonen.Lib
             line = new Line();
             line.Stroke = Brushes.Black;
             line.StrokeThickness = 2;
-            line.X1 = NeuronA.X + Neuron.RADIUS;
-            line.Y1 = NeuronA.Y + Neuron.RADIUS;
-            line.X2 = NeuronB.X + Neuron.RADIUS;
-            line.Y2 = NeuronB.Y + Neuron.RADIUS;
+            line.X1 = NeuronA.Position.X + Neuron.RADIUS;
+            line.Y1 = NeuronA.Position.Y + Neuron.RADIUS;
+            line.X2 = NeuronB.Position.X + Neuron.RADIUS;
+            line.Y2 = NeuronB.Position.Y + Neuron.RADIUS;
         }
 
         public int Angle { get { return angle; } }
@@ -36,13 +36,13 @@ namespace Kohonen.Lib
         {
             if (neuronA.ID == neuronID)
             {
-                Line.X1 = NeuronA.X + Neuron.RADIUS;
-                Line.Y1 = NeuronA.Y + Neuron.RADIUS;
+                Line.X1 = NeuronA.Position.X + Neuron.RADIUS;
+                Line.Y1 = NeuronA.Position.Y + Neuron.RADIUS;
             }
             else if (NeuronB.ID == neuronID)
             {
-                Line.X2 = NeuronB.X + Neuron.RADIUS;
-                Line.Y2 = NeuronB.Y + Neuron.RADIUS;
+                Line.X2 = NeuronB.Position.X + Neuron.RADIUS;
+                Line.Y2 = NeuronB.Position.Y + Neuron.RADIUS;
             }
         }
 

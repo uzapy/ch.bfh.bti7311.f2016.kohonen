@@ -8,11 +8,10 @@ namespace Kohonen.Lib
 {
     public class Neuron
     {
-        public const int RADIUS = 7;
+        public const int RADIUS = 5;
 
         private int id;
-        private double x;
-        private double y;
+        private Vector position = new Vector();
         private bool hasMoved = false;
         private Ellipse ellipse = new Ellipse();
         private List<Axon> axons = new List<Axon>();
@@ -20,27 +19,22 @@ namespace Kohonen.Lib
         public Neuron(int id, double x, double y)
         {
             this.id = id;
-            this.x = x;
-            this.y = y;
+            this.position.X = x;
+            this.position.Y = y;
 
             ellipse.Height = Neuron.RADIUS * 2;
             ellipse.Width = Neuron.RADIUS * 2;
             ellipse.Fill = Brushes.Black;
             ellipse.HorizontalAlignment = HorizontalAlignment.Left;
             ellipse.VerticalAlignment = VerticalAlignment.Top;
-            ellipse.Margin = new Thickness(X, Y, 0, 0);
+            ellipse.Margin = new Thickness(Position.X, Position.Y, 0, 0);
         }
 
         public int ID { get { return id; } }
-        public double X
+        public Vector Position
         {
-            get { return x; }
-            set { x = value; }
-        }
-        public double Y
-        {
-            get { return y; }
-            set { y = value; }
+            get { return position; }
+            set { position = value; }
         }
         public bool HasMoved
         {
@@ -62,11 +56,10 @@ namespace Kohonen.Lib
             }
         }
 
-        public void Move(double x, double y)
+        public void Move(Vector added)
         {
-            X += x;
-            Y += y;
-            Ellipse.Margin = new Thickness(X, Y, 0, 0);
+            position += added;
+            Ellipse.Margin = new Thickness(Position.X, Position.Y, 0, 0);
 
             foreach (Axon a in Axons)
             {
@@ -93,18 +86,17 @@ namespace Kohonen.Lib
             ellipse.Stroke = null;
         }
 
-        internal void UpdatePosition(IrisLib iris, double learningRate)
+        internal void MoveRecursively(Vector irisPosition, double learningRate)
         {
-            if (!HasMoved && learningRate > 0.1)
+            double currentLearningRate = learningRate * SelfOrganizingMap.DISTANCE_FACTOR;
+            if (!HasMoved && currentLearningRate > SelfOrganizingMap.LEARNING_RATE_LOW_THRESHHOLD)
             {
                 HasMoved = true;
-                double deltaX = -(learningRate * (X - iris.X));
-                double deltaY = -(learningRate * (Y - iris.Y));
-                Move(deltaX, deltaY);
+                Move(-((Position - irisPosition) * currentLearningRate));
 
                 foreach (Neuron n in Neighbours)
                 {
-                    n.UpdatePosition(iris, learningRate * 0.5);
+                    n.MoveRecursively(irisPosition, currentLearningRate);
                 }
             }
         }

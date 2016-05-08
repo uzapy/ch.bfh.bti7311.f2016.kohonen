@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System;
 
 namespace Kohonen.Lib
 {
@@ -11,26 +10,20 @@ namespace Kohonen.Lib
         public const int RADIUS = 10;
 
         private Iris iris;
-        private double x;
-        private double y;
+        private Vector position = new Vector();
         private Ellipse ellipse;
 
         public IrisLib(Iris iris, double x, double y)
         {
             this.iris = iris;
-            this.x = x;
-            this.y = y;
+            this.position.X = x;
+            this.position.Y = y;
         }
 
-        public double X
+        public Vector Position
         {
-            get { return x; }
-            set { x = value; }
-        }
-        public double Y
-        {
-            get { return y; }
-            set { y = value; }
+            get { return position; }
+            set { position = value; }
         }
 
         public Ellipse Ellipse
@@ -46,7 +39,7 @@ namespace Kohonen.Lib
                     ellipse.Opacity = 0.333;
                     ellipse.HorizontalAlignment = HorizontalAlignment.Left;
                     ellipse.VerticalAlignment = VerticalAlignment.Top;
-                    ellipse.Margin = new Thickness(X, Y, 0, 0);
+                    ellipse.Margin = new Thickness(position.X, position.Y, 0, 0);
                 }
                 return ellipse;
             }
@@ -83,6 +76,7 @@ namespace Kohonen.Lib
             {
                 ellipse.Opacity = 0.33;
                 ellipse.Fill = GetBrushForSpecies(iris.Species);
+                ellipse.Stroke = null;
             }
         }
     }

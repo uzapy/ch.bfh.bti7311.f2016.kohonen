@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Kohonen.Lib
 {
@@ -11,12 +12,16 @@ namespace Kohonen.Lib
         private IrisDataContext dataContext = new IrisDataContext();
         private List<IrisLib> irisData = new List<IrisLib>();
         private HashSet<Neuron> neuronMap = new HashSet<Neuron>();
-        private double learningRate = 0.5;
+        Random random = new Random();
+
+        private double learningRate = 0.75;
+        internal const double DISTANCE_FACTOR = 0.5;
+        internal const double LEARNING_RATE_LOW_THRESHHOLD = 0.1;
 
         public IEnumerable<IrisLib> IrisLib { get { return irisData; } }
         public HashSet<Neuron> NeuronMap { get { return neuronMap; } }
 
-        public void LoadSampleData()
+        public void LoadSampleData(double width, double height)
         {
             double sepalLengthMin = dataContext.Iris.Min(i => i.SepalLength);
             double sepalLengthMax = dataContext.Iris.Max(i => i.SepalLength);
@@ -29,34 +34,36 @@ namespace Kohonen.Lib
 
             foreach (Kohonen.Data.Iris i in dataContext.Iris)
             {
-                double x = (i.PetalLength - petalLengthMin) * (1000 / (petalLengthMax - petalLengthMin));
-                double y = (i.SepalLength - sepalLengthMin) * (1000 / (sepalLengthMax - sepalLengthMin));
+                double x = (i.PetalLength - petalLengthMin) * (width / (petalLengthMax - petalLengthMin));
+                double y = (i.SepalLength - sepalLengthMin) * (height / (sepalLengthMax - sepalLengthMin));
                 irisData.Add(new IrisLib(i, x, y));
             }
         }
 
-        public void GenerateRegularMap(int size)
+        public void GenerateRegularMap(double width, double height, int size)
         {
             int id = 0;
-            double step = 1000 / size;
+            double step = 200 / size;
+            double leftOffset = (width / 2) - (size / 2) * Neuron.RADIUS;
+            double topOffset = (height / 2) - (size / 2) * Neuron.RADIUS;
 
             for (int x = 0; x < size; x++)
             {
                 for (int y = 0; y < size; y++)
                 {
-                    Neuron neuron = new Neuron(id, x * step + 30, y * step + 30);
+                    Neuron neuron = new Neuron(id, x * step + leftOffset, y * step + topOffset);
                     id++;
                     neuronMap.Add(neuron);
 
                     if (y > 0 && y < size)
                     {
-                        Neuron neighbor1 = neuronMap.Where(n => n.Y == neuron.Y - step && n.X == neuron.X).FirstOrDefault();
+                        Neuron neighbor1 = neuronMap.Where(n => n.Position.Y == neuron.Position.Y - step && n.Position.X == neuron.Position.X).FirstOrDefault();
                         neuron.AddAxon(180, neighbor1);
                     }
 
                     if (x > 0 && x < size)
                     {
-                        Neuron neighbor2 = neuronMap.Where(n => n.Y == neuron.Y && n.X == neuron.X - step).FirstOrDefault();
+                        Neuron neighbor2 = neuronMap.Where(n => n.Position.Y == neuron.Position.Y && n.Position.X == neuron.Position.X - step).FirstOrDefault();
                         neuron.AddAxon(90, neighbor2);
                     }
                 }
@@ -70,19 +77,24 @@ namespace Kohonen.Lib
             foreach (IrisLib iris in irisData)
             {
                 // Input-Vektor markieren
-                iris.MarkAsCurrent();
+                // iris.MarkAsCurrent();
 
                 // Das Neuron mit der maximalen Erregung wird ermittelt. Minimaler Euklidischer Abstand zum Input-Vektor.
-                Neuron closest = neuronMap.OrderBy(n => Math.Sqrt(Math.Pow(n.X - iris.X, 2) + Math.Pow(n.Y - iris.Y, 2))).First();
+                Neuron closest = neuronMap.OrderBy(n => (n.Position - iris.Position).Length).First();
 
                 // Neuron Markieren
-                closest.MarkAsCurrent();
+                //closest.MarkAsCurrent();
 
-                //// Eine Sekunde Pause
-                //await Task.Delay(100);
+                // Neuron ein Stück in die Richtung des Input-Vektors bewegen
+                closest.HasMoved = true;
+                Vector convergence = -(learningRate * (closest.Position - iris.Position));
+                closest.Move(convergence);
 
-                // Neuron und dessen Nachbarschaft ein Stück in die Richtung des Input-Vektors bewegen
-                closest.UpdatePosition(iris, learningRate);
+                // Dessen Nachbarschaft ein Stück in die Richtung des Input-Vektors bewegen
+                foreach (Neuron n in closest.Neighbours)
+                {
+                    n.MoveRecursively(iris.Position, learningRate);
+                }
 
                 // Moved-Flag resetten
                 foreach (Neuron neuron in neuronMap)
@@ -91,13 +103,12 @@ namespace Kohonen.Lib
                 }
 
                 // Input-Vektor nicht mehr markieren
-                iris.UnmarkAsCurrent();
+                // iris.UnmarkAsCurrent();
             }
         }
 
         private List<T> Shuffle<T>(List<T> list)
         {
-            Random random = new Random();
             int current = list.Count;
             while (current > 1)
             {

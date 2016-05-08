@@ -56,9 +56,8 @@ namespace Kohonen.Lib
             }
         }
 
-        public void Move(Vector added)
+        public void Redraw()
         {
-            position += added;
             Ellipse.Margin = new Thickness(Position.X, Position.Y, 0, 0);
 
             foreach (Axon a in Axons)
@@ -92,7 +91,7 @@ namespace Kohonen.Lib
             if (!HasMoved && currentLearningRate > SelfOrganizingMap.LEARNING_RATE_LOW_THRESHHOLD)
             {
                 HasMoved = true;
-                Move(-((Position - irisPosition) * currentLearningRate));
+                Position -= currentLearningRate * (Position - irisPosition);
 
                 foreach (Neuron n in Neighbours)
                 {

@@ -1,5 +1,6 @@
 ﻿using Kohonen.Lib;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Kohonen.WPF
@@ -7,7 +8,7 @@ namespace Kohonen.WPF
     public partial class MainWindow : Window
     {
         private SelfOrganizingMap map = new SelfOrganizingMap();
-        //private bool isRunning = false;
+        private bool isRunning = false;
 
         public MainWindow()
         {
@@ -15,7 +16,7 @@ namespace Kohonen.WPF
 
             map.LoadSampleData(networkGrid.Width, networkGrid.Height);
 
-            foreach (IrisLib i in map.IrisLib)
+            foreach (IrisLib i in map.IrisData)
             {
                 networkGrid.Children.Add(i.Ellipse);
             }
@@ -31,11 +32,22 @@ namespace Kohonen.WPF
                     networkGrid.Children.Add(axon.Line);
                 }
             }
+
+            LearningRate.Text = map.LearningRate.ToString("0.00");
         }
 
-        private void Button_Play(object sender, RoutedEventArgs e)
+        private async void Button_Play(object sender, RoutedEventArgs e)
         {
-            map.Algorithm();
+            isRunning = !isRunning;
+            Play.Content = isRunning ? "Stop" : "Play";
+
+            while (isRunning)
+            {
+                await Task.Run(() => map.Algorithm());
+                NumberOfRuns.Text = map.Runs.ToString();
+                LearningRate.Text = map.LearningRate.ToString("0.00");
+                map.Redraw();
+            }
         }
 
         private void Button_Step(object sender, RoutedEventArgs e)

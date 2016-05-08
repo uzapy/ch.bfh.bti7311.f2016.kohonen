@@ -12,14 +12,28 @@ namespace Kohonen.Lib
         private IrisDataContext dataContext = new IrisDataContext();
         private List<IrisLib> irisData = new List<IrisLib>();
         private HashSet<Neuron> neuronMap = new HashSet<Neuron>();
-        Random random = new Random();
+        private Random random = new Random();
 
         private double learningRate = 0.75;
+        private double runs = 0;
         internal const double DISTANCE_FACTOR = 0.5;
         internal const double LEARNING_RATE_LOW_THRESHHOLD = 0.1;
 
-        public IEnumerable<IrisLib> IrisLib { get { return irisData; } }
+        public SelfOrganizingMap()
+        {
+
+        }
+
+        public List<IrisLib> IrisData { get { return irisData; } }
         public HashSet<Neuron> NeuronMap { get { return neuronMap; } }
+        public double LearningRate
+        {
+            get
+            {
+                return learningRate * ((1000-runs) / 1000);
+            }
+        }
+        public double Runs { get { return runs; } }
 
         public void LoadSampleData(double width, double height)
         {
@@ -36,7 +50,7 @@ namespace Kohonen.Lib
             {
                 double x = (i.PetalLength - petalLengthMin) * (width / (petalLengthMax - petalLengthMin));
                 double y = (i.SepalLength - sepalLengthMin) * (height / (sepalLengthMax - sepalLengthMin));
-                irisData.Add(new IrisLib(i, x, y));
+                IrisData.Add(new IrisLib(i, x, y));
             }
         }
 
@@ -53,17 +67,17 @@ namespace Kohonen.Lib
                 {
                     Neuron neuron = new Neuron(id, x * step + leftOffset, y * step + topOffset);
                     id++;
-                    neuronMap.Add(neuron);
+                    NeuronMap.Add(neuron);
 
                     if (y > 0 && y < size)
                     {
-                        Neuron neighbor1 = neuronMap.Where(n => n.Position.Y == neuron.Position.Y - step && n.Position.X == neuron.Position.X).FirstOrDefault();
+                        Neuron neighbor1 = NeuronMap.Where(n => n.Position.Y == neuron.Position.Y - step && n.Position.X == neuron.Position.X).FirstOrDefault();
                         neuron.AddAxon(180, neighbor1);
                     }
 
                     if (x > 0 && x < size)
                     {
-                        Neuron neighbor2 = neuronMap.Where(n => n.Position.Y == neuron.Position.Y && n.Position.X == neuron.Position.X - step).FirstOrDefault();
+                        Neuron neighbor2 = NeuronMap.Where(n => n.Position.Y == neuron.Position.Y && n.Position.X == neuron.Position.X - step).FirstOrDefault();
                         neuron.AddAxon(90, neighbor2);
                     }
                 }
@@ -73,37 +87,47 @@ namespace Kohonen.Lib
         public void Algorithm()
         {
             // Zufällig durch die Input-Daten gehen
-            irisData = Shuffle(irisData);
-            foreach (IrisLib iris in irisData)
+            irisData = Shuffle(IrisData);
+            foreach (IrisLib iris in IrisData)
             {
                 // Input-Vektor markieren
                 // iris.MarkAsCurrent();
 
                 // Das Neuron mit der maximalen Erregung wird ermittelt. Minimaler Euklidischer Abstand zum Input-Vektor.
-                Neuron closest = neuronMap.OrderBy(n => (n.Position - iris.Position).Length).First();
+                Neuron closest = NeuronMap.OrderBy(n => (n.Position - iris.Position).Length).First();
 
                 // Neuron Markieren
                 //closest.MarkAsCurrent();
 
                 // Neuron ein Stück in die Richtung des Input-Vektors bewegen
                 closest.HasMoved = true;
-                Vector convergence = -(learningRate * (closest.Position - iris.Position));
-                closest.Move(convergence);
+                closest.Position -= LearningRate * (closest.Position - iris.Position);
 
                 // Dessen Nachbarschaft ein Stück in die Richtung des Input-Vektors bewegen
                 foreach (Neuron n in closest.Neighbours)
                 {
-                    n.MoveRecursively(iris.Position, learningRate);
+                    n.MoveRecursively(iris.Position, LearningRate);
                 }
 
                 // Moved-Flag resetten
-                foreach (Neuron neuron in neuronMap)
+                foreach (Neuron neuron in NeuronMap)
                 {
                     neuron.HasMoved = false;
                 }
 
                 // Input-Vektor nicht mehr markieren
                 // iris.UnmarkAsCurrent();
+
+            }
+            // Increment run count
+            runs++;
+        }
+
+        public void Redraw()
+        {
+            foreach (var n in NeuronMap)
+            {
+                n.Redraw();
             }
         }
 

@@ -7,12 +7,62 @@ namespace Kohonen.WPF
 {
     public partial class MainWindow : Window
     {
-        private SelfOrganizingMap map = new SelfOrganizingMap();
+        private SelfOrganizingMap map;
         private bool isRunning = false;
 
         public MainWindow()
         {
             InitializeComponent();
+
+            LoadData();
+
+            InitialLearningRate.Text = map.LearningRate.ToString("0.00");
+            CurrentLearningRate.Text = map.LearningRate.ToString("0.00");
+            InitialBlockRadius.Text = map.BlockRadius.ToString("0.00");
+            CurrentBlockRadius.Text = map.BlockRadius.ToString("0.00");
+        }
+
+        private async void Button_Play(object sender, RoutedEventArgs e)
+        {
+            isRunning = !isRunning;
+            Play.Content = isRunning ? "Stop" : "Play";
+
+            double initialLearningRate = 0;
+            if (double.TryParse(InitialLearningRate.Text, out initialLearningRate))
+            {
+                map.LearningRate = initialLearningRate;
+            }
+
+            double initialBlockRadius = 0;
+            if (double.TryParse(InitialBlockRadius.Text, out initialBlockRadius))
+            {
+                map.BlockRadius = initialBlockRadius;
+            }
+
+            while (isRunning)
+            {
+                await Task.Run(() => map.Algorithm());
+                NumberOfRuns.Text = map.Runs.ToString();
+                CurrentLearningRate.Text = map.LearningRate.ToString("0.00");
+                CurrentBlockRadius.Text = map.BlockRadius.ToString("0.00");
+                map.Redraw();
+            }
+        }
+
+        private void Button_Step(object sender, RoutedEventArgs e)
+        {
+            map.ShowSteps = !map.ShowSteps;
+        }
+
+        private void Reset_Click(object sender, RoutedEventArgs e)
+        {
+            LoadData();
+        }
+
+        private void LoadData()
+        {
+            map = new SelfOrganizingMap();
+            networkGrid.Children.Clear();
 
             map.LoadSampleData(networkGrid.Width, networkGrid.Height);
 
@@ -32,29 +82,6 @@ namespace Kohonen.WPF
                     networkGrid.Children.Add(axon.Line);
                 }
             }
-
-            InitialLearningRate.Text = map.LearningRate.ToString("0.00");
-            InitialBlockRadius.Text = map.BlockRadius.ToString("0.00");
-            CurrentLearningRate.Text = map.LearningRate.ToString("0.00");
-        }
-
-        private async void Button_Play(object sender, RoutedEventArgs e)
-        {
-            isRunning = !isRunning;
-            Play.Content = isRunning ? "Stop" : "Play";
-
-            while (isRunning)
-            {
-                await Task.Run(() => map.Algorithm());
-                NumberOfRuns.Text = map.Runs.ToString();
-                CurrentLearningRate.Text = map.LearningRate.ToString("0.00");
-                map.Redraw();
-            }
-        }
-
-        private void Button_Step(object sender, RoutedEventArgs e)
-        {
-            map.ShowSteps = !map.ShowSteps;
         }
     }
 }

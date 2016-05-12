@@ -66,6 +66,7 @@
             </GroupBox>
             <Button x:Name="Play" Content="Play" Width="149" Click="Button_Play" />
             <Button x:Name="Step" Content="Step" Width="149" Click="Button_Step" />
+            <Button x:Name="Reset" Content="Reset" Width="149" Click="Reset_Click" />
         </StackPanel>
         <GroupBox Grid.Column="0" Header="Current Values" HorizontalAlignment="Left" VerticalAlignment="Bottom">
             <StackPanel Orientation="Vertical">

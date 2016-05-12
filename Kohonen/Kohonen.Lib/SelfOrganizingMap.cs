@@ -25,12 +25,14 @@ namespace Kohonen.Lib
         public HashSet<Neuron> NeuronMap { get { return neuronMap; } }
         public double LearningRate
         {
-            get
-            {
-                return learningRate * ((1000-runs) / 1000);
-            }
+            get { return learningRate * ((1000-runs) / 1000); }
+            set { learningRate = value; }
         }
-        public double BlockRadius { get { return blockRadius; } }
+        public double BlockRadius
+        {
+            get { return blockRadius; }
+            set { blockRadius = value; }
+        }
         public bool ShowSteps
         {
             get { return showSteps; }

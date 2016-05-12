@@ -8,7 +8,7 @@ namespace Kohonen.Lib
 {
     public class Neuron
     {
-        public const int RADIUS = 5;
+        public const int RADIUS = 4;
 
         private int id;
         private Vector position = new Vector();
@@ -27,7 +27,7 @@ namespace Kohonen.Lib
             ellipse.Fill = Brushes.Black;
             ellipse.HorizontalAlignment = HorizontalAlignment.Left;
             ellipse.VerticalAlignment = VerticalAlignment.Top;
-            ellipse.Margin = new Thickness(Position.X, Position.Y, 0, 0);
+            ellipse.Margin = new Thickness(Position.X - Neuron.RADIUS, Position.Y - Neuron.RADIUS, 0, 0);
         }
 
         public int ID { get { return id; } }
@@ -58,7 +58,7 @@ namespace Kohonen.Lib
 
         public void Redraw()
         {
-            Ellipse.Margin = new Thickness(Position.X, Position.Y, 0, 0);
+            Ellipse.Margin = new Thickness(Position.X - Neuron.RADIUS, Position.Y - Neuron.RADIUS, 0, 0);
 
             foreach (Axon a in Axons)
             {

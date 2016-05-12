@@ -33,7 +33,9 @@ namespace Kohonen.WPF
                 }
             }
 
-            LearningRate.Text = map.LearningRate.ToString("0.00");
+            InitialLearningRate.Text = map.LearningRate.ToString("0.00");
+            InitialBlockRadius.Text = map.BlockRadius.ToString("0.00");
+            CurrentLearningRate.Text = map.LearningRate.ToString("0.00");
         }
 
         private async void Button_Play(object sender, RoutedEventArgs e)
@@ -45,13 +47,14 @@ namespace Kohonen.WPF
             {
                 await Task.Run(() => map.Algorithm());
                 NumberOfRuns.Text = map.Runs.ToString();
-                LearningRate.Text = map.LearningRate.ToString("0.00");
+                CurrentLearningRate.Text = map.LearningRate.ToString("0.00");
                 map.Redraw();
             }
         }
 
         private void Button_Step(object sender, RoutedEventArgs e)
         {
+            map.ShowSteps = !map.ShowSteps;
         }
     }
 }

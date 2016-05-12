@@ -7,7 +7,7 @@ namespace Kohonen.Lib
 {
     public class IrisLib
     {
-        public const int RADIUS = 10;
+        public const int RADIUS = 8;
 
         private Iris iris;
         private Vector position = new Vector();
@@ -39,7 +39,7 @@ namespace Kohonen.Lib
                     ellipse.Opacity = 0.333;
                     ellipse.HorizontalAlignment = HorizontalAlignment.Left;
                     ellipse.VerticalAlignment = VerticalAlignment.Top;
-                    ellipse.Margin = new Thickness(position.X, position.Y, 0, 0);
+                    ellipse.Margin = new Thickness(position.X - IrisLib.RADIUS, position.Y - IrisLib.RADIUS, 0, 0);
                 }
                 return ellipse;
             }

@@ -15,14 +15,11 @@ namespace Kohonen.Lib
         private Random random = new Random();
 
         private double learningRate = 0.75;
+        private double blockRadius = 300;
+        private bool showSteps = false;
         private double runs = 0;
         internal const double DISTANCE_FACTOR = 0.5;
         internal const double LEARNING_RATE_LOW_THRESHHOLD = 0.1;
-
-        public SelfOrganizingMap()
-        {
-
-        }
 
         public List<IrisLib> IrisData { get { return irisData; } }
         public HashSet<Neuron> NeuronMap { get { return neuronMap; } }
@@ -32,6 +29,12 @@ namespace Kohonen.Lib
             {
                 return learningRate * ((1000-runs) / 1000);
             }
+        }
+        public double BlockRadius { get { return blockRadius; } }
+        public bool ShowSteps
+        {
+            get { return showSteps; }
+            set { showSteps = value; }
         }
         public double Runs { get { return runs; } }
 

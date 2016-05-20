@@ -50,16 +50,16 @@
             </GroupBox>
             <GroupBox Header="Iris Data" >
                 <StackPanel>
-                    <ComboBox x:Name="HorizontalData">
-                        <ComboBoxItem IsSelected="True">Sepal Length</ComboBoxItem>
+                    <ComboBox x:Name="HorizontalData" SelectionChanged="HorizontalData_SelectionChanged">
+                        <ComboBoxItem>Sepal Length</ComboBoxItem>
                         <ComboBoxItem>Sepal Width</ComboBoxItem>
                         <ComboBoxItem>Petal Length</ComboBoxItem>
                         <ComboBoxItem>Petal Width</ComboBoxItem>
                     </ComboBox>
-                    <ComboBox x:Name="VerticalData">
+                    <ComboBox x:Name="VerticalData" SelectionChanged="VerticalData_SelectionChanged">
                         <ComboBoxItem>Sepal Length</ComboBoxItem>
                         <ComboBoxItem>Sepal Width</ComboBoxItem>
-                        <ComboBoxItem IsSelected="True">Petal Length</ComboBoxItem>
+                        <ComboBoxItem>Petal Length</ComboBoxItem>
                         <ComboBoxItem>Petal Width</ComboBoxItem>
                     </ComboBox>
                 </StackPanel>

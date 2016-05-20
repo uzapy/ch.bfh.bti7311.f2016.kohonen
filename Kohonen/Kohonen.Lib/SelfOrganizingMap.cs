@@ -1,9 +1,7 @@
 ﻿using Kohonen.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace Kohonen.Lib
 {
@@ -40,7 +38,7 @@ namespace Kohonen.Lib
         }
         public double Runs { get { return runs; } }
 
-        public void LoadSampleData(double width, double height)
+        public void LoadSampleData(double width, double height, string horizontalData, string verticalData)
         {
             double sepalLengthMin = dataContext.Iris.Min(i => i.SepalLength);
             double sepalLengthMax = dataContext.Iris.Max(i => i.SepalLength);
@@ -51,10 +49,46 @@ namespace Kohonen.Lib
             double petalWidthMin = dataContext.Iris.Min(i => i.PetalWidth);
             double petalWidthMax = dataContext.Iris.Max(i => i.PetalWidth);
 
+            IrisData.Clear();
+
             foreach (Kohonen.Data.Iris i in dataContext.Iris)
             {
-                double x = (i.PetalLength - petalLengthMin) * (width / (petalLengthMax - petalLengthMin));
-                double y = (i.SepalLength - sepalLengthMin) * (height / (sepalLengthMax - sepalLengthMin));
+                double x = 0;
+                double y = 0;
+                switch (horizontalData)
+                {
+                    case "Sepal Length":
+                        x = (i.SepalLength - sepalLengthMin) * (width / (sepalLengthMax - sepalLengthMin));
+                        break;
+                    case "Sepal Width":
+                        x = (i.SepalWidth - sepalWidthMin) * (width / (sepalWidthMax - sepalWidthMin));
+                        break;
+                    case "Petal Length":
+                        x = (i.PetalLength - petalLengthMin) * (width / (petalLengthMax - petalLengthMin));
+                        break;
+                    case "Petal Width":
+                        x = (i.PetalWidth - petalWidthMin) * (width / (petalWidthMax - petalWidthMin));
+                        break;
+                    default:
+                        continue;
+                }
+                switch (verticalData)
+                {
+                    case "Sepal Length":
+                        y = (i.SepalLength - sepalLengthMin) * (height / (sepalLengthMax - sepalLengthMin));
+                        break;
+                    case "Sepal Width":
+                        y = (i.SepalWidth - sepalWidthMin) * (height / (sepalWidthMax - sepalWidthMin));
+                        break;
+                    case "Petal Length":
+                        y = (i.PetalLength - petalLengthMin) * (height / (petalLengthMax - petalLengthMin));
+                        break;
+                    case "Petal Width":
+                        y = (i.PetalWidth - petalWidthMin) * (height / (petalWidthMax - petalWidthMin));
+                        break;
+                    default:
+                        continue;
+                }
                 IrisData.Add(new IrisLib(i, x, y));
             }
         }
@@ -63,8 +97,10 @@ namespace Kohonen.Lib
         {
             int id = 0;
             double step = 200 / size;
-            double leftOffset = (width / 2) - (size / 2) * Neuron.RADIUS;
-            double topOffset = (height / 2) - (size / 2) * Neuron.RADIUS;
+            double leftOffset = (width / 2) - (size / 2) * step;
+            double topOffset = (height / 2) - (size / 2) * step;
+
+            NeuronMap.Clear();
 
             for (int x = 0; x < size; x++)
             {

@@ -2,17 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Kohonen.Lib
 {
     public class SelfOrganizingMap
     {
-        public const double LEARNING_RATE_START = 0.75;
-        public const double LEARNING_RATE_END = 0.00001;
-        public const int MAX_STEPS = 10000;
-        public const double BLOCK_RADIUS_START = 500;
-
-        internal const double DISTANCE_FACTOR = 0.5;
+        public const double LEARNING_RATE_START = 0.9;
+        public const double LEARNING_RATE_END = 0.000001;
+        public const int STEPS_MAX = 100000;
+        public const double BLOCK_RADIUS_START = 10;
+        public const double BLOCK_RADIUS_END = 1;
 
         private IrisDataContext dataContext = new IrisDataContext();
         private List<IrisLib> irisData = new List<IrisLib>();
@@ -126,32 +126,35 @@ namespace Kohonen.Lib
 
             foreach (IrisLib iris in IrisData)
             {
+                // δt: Adaptionsradius um das Gewinner-Neuron auf der Karte
+                BlockRadius = BLOCK_RADIUS_START * Math.Pow((BLOCK_RADIUS_END / BLOCK_RADIUS_START), (Steps / STEPS_MAX));
+
+                // Die zeitabhängige Lernrate εt
+                LearningRate = LEARNING_RATE_START * Math.Pow((LEARNING_RATE_END / LEARNING_RATE_START), Steps / (STEPS_MAX));
+
                 // Input-Vektor markieren
                 // iris.MarkAsCurrent();
 
                 // Das Neuron mit der maximalen Erregung wird ermittelt. Minimaler Euklidischer Abstand zum Input-Vektor.
                 Neuron closest = NeuronMap.OrderBy(n => (n.Position - iris.Position).Length).First();
+                Neighborhood = closest.GetNeighborhood(BlockRadius, new List<Neuron>());
+
+                Neuron furthest = Neighborhood.OrderBy(n => (n.Position - closest.Position).Length).Last();
 
                 // Neuron Markieren
                 //closest.MarkAsCurrent();
 
-                // Die Nachbaren des ausgewählten Neurons ermitteln
-                Neighborhood = NeuronMap.Where(n => (n.Position - closest.Position).Length < BlockRadius);
-
-                // Neuron ein Stück in die Richtung des Input-Vektors bewegen
-                closest.HasMoved = true;
-                closest.Position -= LearningRate * (closest.Position - iris.Position);
-
-                // Dessen Nachbarschaft ein Stück in die Richtung des Input-Vektors bewegen
+                // Neuron und dessen Nachbarschaft ein Stück in die Richtung des Input-Vektors bewegen
                 foreach (Neuron n in Neighborhood)
                 {
-                    n.MoveRecursively(iris.Position, LearningRate);
-                }
 
-                // Moved-Flag resetten
-                foreach (Neuron neuron in NeuronMap)
-                {
-                    neuron.HasMoved = false;
+                    // Die zeitabhängige Entfernungsgewichtungsfunktion ht
+                    //double weight = Math.Exp(-Math.Pow((n.Position - closest.Position).Length, 2) / (2 * Math.Pow(BlockRadius, 2)));
+                    double radius = (furthest.Position - closest.Position).Length + 10;
+                    double weight = 1 - (1 / radius * ((n.Position - closest.Position).Length + 1));
+
+                    //n.MoveRecursively(iris.Position, LearningRate);
+                    n.Position = n.Position + LearningRate * weight * (iris.Position - n.Position);
                 }
 
                 // Input-Vektor nicht mehr markieren
@@ -159,9 +162,6 @@ namespace Kohonen.Lib
 
                 // Increment run count
                 Steps++;
-
-                // Lernrate verringern
-                AdjustLearningRate();
             }
         }
 
@@ -185,11 +185,6 @@ namespace Kohonen.Lib
                 list[current] = otherObject;
             }
             return list;
-        }
-
-        private void AdjustLearningRate()
-        {
-            LearningRate = LearningRate * ((1000 - Steps) / 1000);
         }
     }
 }

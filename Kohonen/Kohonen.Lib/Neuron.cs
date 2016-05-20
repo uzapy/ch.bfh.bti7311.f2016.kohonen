@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -11,7 +12,6 @@ namespace Kohonen.Lib
 
         private int id;
         private Vector position = new Vector();
-        private bool hasMoved = false;
         private Ellipse ellipse = new Ellipse();
         private List<Axon> axons = new List<Axon>();
 
@@ -34,11 +34,6 @@ namespace Kohonen.Lib
         {
             get { return position; }
             set { position = value; }
-        }
-        public bool HasMoved
-        {
-            get { return hasMoved; }
-            set { hasMoved = value; }
         }
         public Ellipse Ellipse { get { return ellipse; } }
         public List<Axon> Axons { get { return axons; } }
@@ -84,19 +79,21 @@ namespace Kohonen.Lib
             ellipse.Stroke = null;
         }
 
-        internal void MoveRecursively(Vector irisPosition, double learningRate)
+        internal IEnumerable<Neuron> GetNeighborhood(double blockRadius, List<Neuron> neighborhood)
         {
-            double currentLearningRate = learningRate * SelfOrganizingMap.DISTANCE_FACTOR;
-            if (!HasMoved && currentLearningRate > SelfOrganizingMap.LEARNING_RATE_END)
+            if (!neighborhood.Contains(this))
             {
-                HasMoved = true;
-                Position -= currentLearningRate * (Position - irisPosition);
-
-                foreach (Neuron n in Neighbours)
+                neighborhood.Add(this);
+                blockRadius--;
+                if (blockRadius > 1)
                 {
-                    n.MoveRecursively(irisPosition, currentLearningRate);
+                    foreach (Neuron n in Neighbours)
+                    {
+                        n.GetNeighborhood(blockRadius, neighborhood);
+                    } 
                 }
             }
+            return neighborhood;
         }
     }
 }

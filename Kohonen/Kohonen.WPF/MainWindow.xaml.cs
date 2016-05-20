@@ -22,10 +22,10 @@ namespace Kohonen.WPF
             LoadNetworkData();
 
             InitialLearningRate.Text = SelfOrganizingMap.LEARNING_RATE_START.ToString("0.00");
-            CurrentLearningRate.Text = SelfOrganizingMap.LEARNING_RATE_START.ToString("0.00");
+            CurrentLearningRate.Text = SelfOrganizingMap.LEARNING_RATE_START.ToString("0.0000");
             InitialBlockRadius.Text = SelfOrganizingMap.BLOCK_RADIUS_START.ToString("0.00");
             CurrentBlockRadius.Text = SelfOrganizingMap.BLOCK_RADIUS_START.ToString("0.00");
-            MaxSteps.Text = SelfOrganizingMap.MAX_STEPS.ToString();
+            MaxSteps.Text = SelfOrganizingMap.STEPS_MAX.ToString();
         }
 
         private void HorizontalData_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -71,11 +71,11 @@ namespace Kohonen.WPF
                 map.MaxSteps = maxSteps;
             }
 
-            while (isRunning)
+            while (isRunning && map.Steps <= map.MaxSteps)
             {
                 await Task.Run(() => map.Algorithm());
                 NumberOfRuns.Text = map.Steps.ToString();
-                CurrentLearningRate.Text = map.LearningRate.ToString("0.00");
+                CurrentLearningRate.Text = map.LearningRate.ToString("0.0000");
                 CurrentBlockRadius.Text = map.BlockRadius.ToString("0.00");
                 map.Redraw();
             }

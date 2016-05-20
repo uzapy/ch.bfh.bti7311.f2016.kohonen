@@ -10,6 +10,22 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0" Orientation="Vertical">
+            <GroupBox Header="Iris Data" >
+                <StackPanel>
+                    <ComboBox x:Name="HorizontalData" SelectionChanged="HorizontalData_SelectionChanged">
+                        <ComboBoxItem>Sepal Length</ComboBoxItem>
+                        <ComboBoxItem>Sepal Width</ComboBoxItem>
+                        <ComboBoxItem>Petal Length</ComboBoxItem>
+                        <ComboBoxItem>Petal Width</ComboBoxItem>
+                    </ComboBox>
+                    <ComboBox x:Name="VerticalData" SelectionChanged="VerticalData_SelectionChanged">
+                        <ComboBoxItem>Sepal Length</ComboBoxItem>
+                        <ComboBoxItem>Sepal Width</ComboBoxItem>
+                        <ComboBoxItem>Petal Length</ComboBoxItem>
+                        <ComboBoxItem>Petal Width</ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+            </GroupBox>
             <GroupBox Header="Neighborhood Grid">
                 <ComboBox x:Name="GridSelection">
                     <ComboBoxItem>3</ComboBoxItem>
@@ -17,6 +33,9 @@
                     <ComboBoxItem>6</ComboBoxItem>
                     <ComboBoxItem>8</ComboBoxItem>
                 </ComboBox>
+            </GroupBox>
+            <GroupBox Header="Max Steps">
+                <TextBox Text="10000" x:Name="MaxSteps" TextAlignment="Right" />
             </GroupBox>
             <GroupBox Header="Learning Rate" >
                 <StackPanel>
@@ -45,22 +64,6 @@
                         <ComboBoxItem>Staircase</ComboBoxItem>
                         <ComboBoxItem>Gaussian</ComboBoxItem>
                         <ComboBoxItem>Cosinus</ComboBoxItem>
-                    </ComboBox>
-                </StackPanel>
-            </GroupBox>
-            <GroupBox Header="Iris Data" >
-                <StackPanel>
-                    <ComboBox x:Name="HorizontalData" SelectionChanged="HorizontalData_SelectionChanged">
-                        <ComboBoxItem>Sepal Length</ComboBoxItem>
-                        <ComboBoxItem>Sepal Width</ComboBoxItem>
-                        <ComboBoxItem>Petal Length</ComboBoxItem>
-                        <ComboBoxItem>Petal Width</ComboBoxItem>
-                    </ComboBox>
-                    <ComboBox x:Name="VerticalData" SelectionChanged="VerticalData_SelectionChanged">
-                        <ComboBoxItem>Sepal Length</ComboBoxItem>
-                        <ComboBoxItem>Sepal Width</ComboBoxItem>
-                        <ComboBoxItem>Petal Length</ComboBoxItem>
-                        <ComboBoxItem>Petal Width</ComboBoxItem>
                     </ComboBox>
                 </StackPanel>
             </GroupBox>

@@ -7,39 +7,27 @@ namespace Kohonen.Lib
 {
     public class SelfOrganizingMap
     {
+        public const double LEARNING_RATE_START = 0.75;
+        public const double LEARNING_RATE_END = 0.00001;
+        public const int MAX_STEPS = 10000;
+        public const double BLOCK_RADIUS_START = 500;
+
+        internal const double DISTANCE_FACTOR = 0.5;
+
         private IrisDataContext dataContext = new IrisDataContext();
         private List<IrisLib> irisData = new List<IrisLib>();
         private HashSet<Neuron> neuronMap = new HashSet<Neuron>();
         private Random random = new Random();
 
-        private double learningRate = 0.75;
-        private double blockRadius = 300;
-        private bool showSteps = false;
-        private double runs = 0;
-        internal const double DISTANCE_FACTOR = 0.5;
-        internal const double LEARNING_RATE_LOW_THRESHHOLD = 0.1;
-
         public List<IrisLib> IrisData { get { return irisData; } }
         public HashSet<Neuron> NeuronMap { get { return neuronMap; } }
-        public double LearningRate
-        {
-            get { return learningRate * ((1000-runs) / 1000); }
-            set { learningRate = value; }
-        }
-        public double BlockRadius
-        {
-            get { return blockRadius; }
-            set { blockRadius = value; }
-        }
-        public bool ShowSteps
-        {
-            get { return showSteps; }
-            set { showSteps = value; }
-        }
-        public double Runs {
-            get { return runs; }
-            set { runs = value; }
-        }
+        //Lernrate εt
+        public double LearningRate { get; set; }
+        // Entfernungsreichweite δt
+        public double BlockRadius { get; set; }
+        public int MaxSteps { get; set; }
+        public bool ShowSteps { get; set; } = false;
+        public double Steps { get; set; } = 0;
 
         public void LoadSampleData(double width, double height, string horizontalData, string verticalData)
         {
@@ -130,8 +118,12 @@ namespace Kohonen.Lib
 
         public void Algorithm()
         {
+            // Nachbarschaft des ausgewählten Neurons: N+t
+            IEnumerable<Neuron> Neighborhood;
+
             // Zufällig durch die Input-Daten gehen
             irisData = Shuffle(IrisData);
+
             foreach (IrisLib iris in IrisData)
             {
                 // Input-Vektor markieren
@@ -143,12 +135,15 @@ namespace Kohonen.Lib
                 // Neuron Markieren
                 //closest.MarkAsCurrent();
 
+                // Die Nachbaren des ausgewählten Neurons ermitteln
+                Neighborhood = NeuronMap.Where(n => (n.Position - closest.Position).Length < BlockRadius);
+
                 // Neuron ein Stück in die Richtung des Input-Vektors bewegen
                 closest.HasMoved = true;
                 closest.Position -= LearningRate * (closest.Position - iris.Position);
 
                 // Dessen Nachbarschaft ein Stück in die Richtung des Input-Vektors bewegen
-                foreach (Neuron n in closest.Neighbours)
+                foreach (Neuron n in Neighborhood)
                 {
                     n.MoveRecursively(iris.Position, LearningRate);
                 }
@@ -162,9 +157,12 @@ namespace Kohonen.Lib
                 // Input-Vektor nicht mehr markieren
                 // iris.UnmarkAsCurrent();
 
+                // Increment run count
+                Steps++;
+
+                // Lernrate verringern
+                AdjustLearningRate();
             }
-            // Increment run count
-            runs++;
         }
 
         public void Redraw()
@@ -187,6 +185,11 @@ namespace Kohonen.Lib
                 list[current] = otherObject;
             }
             return list;
+        }
+
+        private void AdjustLearningRate()
+        {
+            LearningRate = LearningRate * ((1000 - Steps) / 1000);
         }
     }
 }

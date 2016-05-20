@@ -87,7 +87,7 @@ namespace Kohonen.Lib
         internal void MoveRecursively(Vector irisPosition, double learningRate)
         {
             double currentLearningRate = learningRate * SelfOrganizingMap.DISTANCE_FACTOR;
-            if (!HasMoved && currentLearningRate > SelfOrganizingMap.LEARNING_RATE_LOW_THRESHHOLD)
+            if (!HasMoved && currentLearningRate > SelfOrganizingMap.LEARNING_RATE_END)
             {
                 HasMoved = true;
                 Position -= currentLearningRate * (Position - irisPosition);

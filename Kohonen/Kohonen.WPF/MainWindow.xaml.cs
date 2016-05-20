@@ -21,10 +21,11 @@ namespace Kohonen.WPF
             LoadSampleData();
             LoadNetworkData();
 
-            InitialLearningRate.Text = map.LearningRate.ToString("0.00");
-            CurrentLearningRate.Text = map.LearningRate.ToString("0.00");
-            InitialBlockRadius.Text = map.BlockRadius.ToString("0.00");
-            CurrentBlockRadius.Text = map.BlockRadius.ToString("0.00");
+            InitialLearningRate.Text = SelfOrganizingMap.LEARNING_RATE_START.ToString("0.00");
+            CurrentLearningRate.Text = SelfOrganizingMap.LEARNING_RATE_START.ToString("0.00");
+            InitialBlockRadius.Text = SelfOrganizingMap.BLOCK_RADIUS_START.ToString("0.00");
+            CurrentBlockRadius.Text = SelfOrganizingMap.BLOCK_RADIUS_START.ToString("0.00");
+            MaxSteps.Text = SelfOrganizingMap.MAX_STEPS.ToString();
         }
 
         private void HorizontalData_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -64,10 +65,16 @@ namespace Kohonen.WPF
                 map.BlockRadius = initialBlockRadius;
             }
 
+            int maxSteps = 0;
+            if (int.TryParse(MaxSteps.Text, out maxSteps))
+            {
+                map.MaxSteps = maxSteps;
+            }
+
             while (isRunning)
             {
                 await Task.Run(() => map.Algorithm());
-                NumberOfRuns.Text = map.Runs.ToString();
+                NumberOfRuns.Text = map.Steps.ToString();
                 CurrentLearningRate.Text = map.LearningRate.ToString("0.00");
                 CurrentBlockRadius.Text = map.BlockRadius.ToString("0.00");
                 map.Redraw();
@@ -85,9 +92,9 @@ namespace Kohonen.WPF
             LoadNetworkData(true);
             map.LearningRate = Double.Parse(InitialLearningRate.Text);
             map.BlockRadius = Double.Parse(InitialBlockRadius.Text);
-            map.Runs = 0;
+            map.Steps = 0;
 
-            NumberOfRuns.Text = map.Runs.ToString();
+            NumberOfRuns.Text = map.Steps.ToString();
             CurrentLearningRate.Text = map.LearningRate.ToString();
             CurrentBlockRadius.Text = map.BlockRadius.ToString();
         }

@@ -2,17 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Kohonen.Lib
 {
     public class SelfOrganizingMap
     {
-        public const double LEARNING_RATE_START = 0.9;
-        public const double LEARNING_RATE_END = 0.000001;
-        public const int STEPS_MAX = 100000;
-        public const double BLOCK_RADIUS_START = 10;
-        public const double BLOCK_RADIUS_END = 1;
+        public static double LEARNING_RATE_START = 0.9;
+        public static double LEARNING_RATE_END = 0.00001;
+        public static int STEPS_MAX = 150000;
+        public static double BLOCK_RADIUS_START = 15;
+        public static double BLOCK_RADIUS_END = 0.75;
 
         private IrisDataContext dataContext = new IrisDataContext();
         private List<IrisLib> irisData = new List<IrisLib>();
@@ -25,7 +24,6 @@ namespace Kohonen.Lib
         public double LearningRate { get; set; }
         // Entfernungsreichweite δt
         public double BlockRadius { get; set; }
-        public int MaxSteps { get; set; }
         public bool ShowSteps { get; set; } = false;
         public double Steps { get; set; } = 0;
 
@@ -87,7 +85,7 @@ namespace Kohonen.Lib
         public void GenerateRegularMap(double width, double height, int size)
         {
             int id = 0;
-            double step = 200 / size;
+            double step = 300 / size;
             double leftOffset = (width / 2) - (size / 2) * step;
             double topOffset = (height / 2) - (size / 2) * step;
 
@@ -150,11 +148,11 @@ namespace Kohonen.Lib
 
                     // Die zeitabhängige Entfernungsgewichtungsfunktion ht
                     //double weight = Math.Exp(-Math.Pow((n.Position - closest.Position).Length, 2) / (2 * Math.Pow(BlockRadius, 2)));
-                    double radius = (furthest.Position - closest.Position).Length + 10;
-                    double weight = 1 - (1 / radius * ((n.Position - closest.Position).Length + 1));
+                    //double radius = (furthest.Position - closest.Position).Length + 10;
+                    //double weight = 1 - (1 / radius * ((n.Position - closest.Position).Length + 1));
 
                     //n.MoveRecursively(iris.Position, LearningRate);
-                    n.Position = n.Position + LearningRate * weight * (iris.Position - n.Position);
+                    n.Position = n.Position + LearningRate * 1 * (iris.Position - n.Position);
                 }
 
                 // Input-Vektor nicht mehr markieren

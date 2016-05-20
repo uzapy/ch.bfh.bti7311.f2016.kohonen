@@ -18,7 +18,10 @@ namespace Kohonen.WPF
         {
             InitializeComponent();
 
-            LoadSampleData();
+            HorizontalData_SelectionChanged(this.HorizontalData, null);
+            VerticalData_SelectionChanged(this.VerticalData, null);
+            //LoadSampleData();
+
             LoadNetworkData();
 
             InitialLearningRate.Text = SelfOrganizingMap.LEARNING_RATE_START.ToString("0.00");
@@ -56,22 +59,22 @@ namespace Kohonen.WPF
             double initialLearningRate = 0;
             if (double.TryParse(InitialLearningRate.Text, out initialLearningRate))
             {
-                map.LearningRate = initialLearningRate;
+                SelfOrganizingMap.LEARNING_RATE_START = initialLearningRate;
             }
 
             double initialBlockRadius = 0;
             if (double.TryParse(InitialBlockRadius.Text, out initialBlockRadius))
             {
-                map.BlockRadius = initialBlockRadius;
+                SelfOrganizingMap.BLOCK_RADIUS_START = initialBlockRadius;
             }
 
             int maxSteps = 0;
             if (int.TryParse(MaxSteps.Text, out maxSteps))
             {
-                map.MaxSteps = maxSteps;
+                SelfOrganizingMap.STEPS_MAX = maxSteps;
             }
 
-            while (isRunning && map.Steps <= map.MaxSteps)
+            while (isRunning && map.Steps <= SelfOrganizingMap.STEPS_MAX)
             {
                 await Task.Run(() => map.Algorithm());
                 NumberOfRuns.Text = map.Steps.ToString();
@@ -84,6 +87,7 @@ namespace Kohonen.WPF
         private void Button_Step(object sender, RoutedEventArgs e)
         {
             map.ShowSteps = !map.ShowSteps;
+            Step.Content = map.ShowSteps ? "Fast" : "Step";
         }
 
         private void Reset_Click(object sender, RoutedEventArgs e)

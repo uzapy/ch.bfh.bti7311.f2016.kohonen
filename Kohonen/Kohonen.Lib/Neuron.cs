@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -8,7 +7,7 @@ namespace Kohonen.Lib
 {
     public class Neuron
     {
-        public const int RADIUS = 4;
+        public const int RADIUS = 5;
 
         private int id;
         private Vector position = new Vector();

@@ -83,6 +83,13 @@ namespace Kohonen.WPF
         {
             LoadSampleData(true);
             LoadNetworkData(true);
+            map.LearningRate = Double.Parse(InitialLearningRate.Text);
+            map.BlockRadius = Double.Parse(InitialBlockRadius.Text);
+            map.Runs = 0;
+
+            NumberOfRuns.Text = map.Runs.ToString();
+            CurrentLearningRate.Text = map.LearningRate.ToString();
+            CurrentBlockRadius.Text = map.BlockRadius.ToString();
         }
 
         private void LoadSampleData(bool removeExisting = false)

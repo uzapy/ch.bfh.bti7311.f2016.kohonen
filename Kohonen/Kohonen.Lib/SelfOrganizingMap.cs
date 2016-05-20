@@ -36,7 +36,10 @@ namespace Kohonen.Lib
             get { return showSteps; }
             set { showSteps = value; }
         }
-        public double Runs { get { return runs; } }
+        public double Runs {
+            get { return runs; }
+            set { runs = value; }
+        }
 
         public void LoadSampleData(double width, double height, string horizontalData, string verticalData)
         {

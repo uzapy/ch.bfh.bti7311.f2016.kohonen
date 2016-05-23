@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -78,11 +79,11 @@ namespace Kohonen.Lib
             ellipse.Stroke = null;
         }
 
-        internal IEnumerable<Neuron> GetNeighborhood(double blockRadius, List<Neuron> neighborhood)
+        internal Dictionary<Neuron, double> GetNeighborhood(double blockRadius, Dictionary<Neuron, double> neighborhood)
         {
-            if (!neighborhood.Contains(this))
+            if (!neighborhood.ContainsKey(this))
             {
-                neighborhood.Add(this);
+                neighborhood.Add(this, SelfOrganizingMap.BLOCK_RADIUS_START - blockRadius);
                 blockRadius--;
                 if (blockRadius > 1)
                 {

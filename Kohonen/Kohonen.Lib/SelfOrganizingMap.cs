@@ -18,7 +18,11 @@ namespace Kohonen.Lib
         private HashSet<Neuron> neuronMap = new HashSet<Neuron>();
         private Random random = new Random();
 
-        public List<IrisLib> IrisData { get { return irisData; } }
+        public List<IrisLib> IrisData
+        {
+            get { return irisData; }
+            private set { irisData = value; }
+        }
         public HashSet<Neuron> NeuronMap { get { return neuronMap; } }
         //Lernrate εt
         public double LearningRate { get; set; }
@@ -117,14 +121,14 @@ namespace Kohonen.Lib
         public void Algorithm()
         {
             // Nachbarschaft des ausgewählten Neurons: N+t
-            IEnumerable<Neuron> Neighborhood;
+            Dictionary<Neuron, double> Neighborhood;
 
             // Zufällig durch die Input-Daten gehen
-            irisData = Shuffle(IrisData);
+            IrisData = Shuffle(IrisData);
 
             foreach (IrisLib iris in IrisData)
             {
-                // δt: Adaptionsradius um das Gewinner-Neuron auf der Karte
+                // Rt: Adaptionsradius um das Gewinner-Neuron auf der Karte
                 BlockRadius = BLOCK_RADIUS_START * Math.Pow((BLOCK_RADIUS_END / BLOCK_RADIUS_START), (Steps / STEPS_MAX));
 
                 // Die zeitabhängige Lernrate εt
@@ -135,30 +139,29 @@ namespace Kohonen.Lib
 
                 // Das Neuron mit der maximalen Erregung wird ermittelt. Minimaler Euklidischer Abstand zum Input-Vektor.
                 Neuron closest = NeuronMap.OrderBy(n => (n.Position - iris.Position).Length).First();
-                Neighborhood = closest.GetNeighborhood(BlockRadius, new List<Neuron>());
 
-                Neuron furthest = Neighborhood.OrderBy(n => (n.Position - closest.Position).Length).Last();
+                // Alle Nachbaren innerhalb des Blockradius des gewählten Neurons (inklusive selbst) auslesen.
+                Neighborhood = closest.GetNeighborhood(BlockRadius, new Dictionary<Neuron, double>());
+
+                // Neuron furthest = Neighborhood.OrderBy(n => (n.Position - closest.Position).Length).Last();
 
                 // Neuron Markieren
                 //closest.MarkAsCurrent();
 
                 // Neuron und dessen Nachbarschaft ein Stück in die Richtung des Input-Vektors bewegen
-                foreach (Neuron n in Neighborhood)
+                foreach (KeyValuePair<Neuron, double> n in Neighborhood)
                 {
-
-                    // Die zeitabhängige Entfernungsgewichtungsfunktion ht
-                    //double weight = Math.Exp(-Math.Pow((n.Position - closest.Position).Length, 2) / (2 * Math.Pow(BlockRadius, 2)));
-                    //double radius = (furthest.Position - closest.Position).Length + 10;
-                    //double weight = 1 - (1 / radius * ((n.Position - closest.Position).Length + 1));
+                    // Die zeitabhängige Entfernungsgewichtungsfunktion ht.
+                    double weight = Math.Exp(-Math.Pow(n.Value / BlockRadius, 2));
 
                     //n.MoveRecursively(iris.Position, LearningRate);
-                    n.Position = n.Position + LearningRate * 1 * (iris.Position - n.Position);
+                    n.Key.Position = n.Key.Position + LearningRate * weight * (iris.Position - n.Key.Position);
                 }
 
                 // Input-Vektor nicht mehr markieren
                 // iris.UnmarkAsCurrent();
 
-                // Increment run count
+                // Schrittzähhler inkrementieren
                 Steps++;
             }
         }

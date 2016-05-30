@@ -146,7 +146,6 @@ namespace Kohonen.Lib
                     // Die zeitabhängige Entfernungsgewichtungsfunktion ht.
                     double weight = Math.Exp(-Math.Pow(n.Value / BlockRadius, 2));
 
-                    //n.MoveRecursively(iris.Position, LearningRate);
                     n.Key.Position = n.Key.Position + LearningRate * weight * (iris.Position - n.Key.Position);
                 }
 

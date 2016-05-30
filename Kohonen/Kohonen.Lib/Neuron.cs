@@ -90,7 +90,7 @@ namespace Kohonen.Lib
                     foreach (Neuron n in Neighbours)
                     {
                         n.GetNeighborhood(blockRadius, currentRadius, neighborhood);
-                    } 
+                    }
                 }
             }
             return neighborhood;

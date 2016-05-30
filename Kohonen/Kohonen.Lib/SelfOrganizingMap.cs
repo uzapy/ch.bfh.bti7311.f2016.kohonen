@@ -149,7 +149,7 @@ namespace Kohonen.Lib
                     n.Key.Position = n.Key.Position + LearningRate * weight * (iris.Position - n.Key.Position);
                 }
 
-                // Schrittzähhler inkrementieren
+                // Schrittzähler inkrementieren
                 Steps++;
             }
         }

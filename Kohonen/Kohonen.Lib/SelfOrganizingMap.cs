@@ -134,19 +134,11 @@ namespace Kohonen.Lib
                 // Die zeitabhängige Lernrate εt
                 LearningRate = LEARNING_RATE_START * Math.Pow((LEARNING_RATE_END / LEARNING_RATE_START), Steps / (STEPS_MAX));
 
-                // Input-Vektor markieren
-                // iris.MarkAsCurrent();
-
                 // Das Neuron mit der maximalen Erregung wird ermittelt. Minimaler Euklidischer Abstand zum Input-Vektor.
                 Neuron closest = NeuronMap.OrderBy(n => (n.Position - iris.Position).Length).First();
 
                 // Alle Nachbaren innerhalb des Blockradius des gewählten Neurons (inklusive selbst) auslesen.
-                Neighborhood = closest.GetNeighborhood(BlockRadius, new Dictionary<Neuron, double>());
-
-                // Neuron furthest = Neighborhood.OrderBy(n => (n.Position - closest.Position).Length).Last();
-
-                // Neuron Markieren
-                //closest.MarkAsCurrent();
+                Neighborhood = closest.GetNeighborhood(BlockRadius, 0, new Dictionary<Neuron, double>());
 
                 // Neuron und dessen Nachbarschaft ein Stück in die Richtung des Input-Vektors bewegen
                 foreach (KeyValuePair<Neuron, double> n in Neighborhood)
@@ -157,9 +149,6 @@ namespace Kohonen.Lib
                     //n.MoveRecursively(iris.Position, LearningRate);
                     n.Key.Position = n.Key.Position + LearningRate * weight * (iris.Position - n.Key.Position);
                 }
-
-                // Input-Vektor nicht mehr markieren
-                // iris.UnmarkAsCurrent();
 
                 // Schrittzähhler inkrementieren
                 Steps++;

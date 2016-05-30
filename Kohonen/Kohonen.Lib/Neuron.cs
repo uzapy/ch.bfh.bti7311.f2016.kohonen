@@ -79,17 +79,17 @@ namespace Kohonen.Lib
             ellipse.Stroke = null;
         }
 
-        internal Dictionary<Neuron, double> GetNeighborhood(double blockRadius, Dictionary<Neuron, double> neighborhood)
+        internal Dictionary<Neuron, double> GetNeighborhood(double blockRadius, double currentRadius, Dictionary<Neuron, double> neighborhood)
         {
             if (!neighborhood.ContainsKey(this))
             {
-                neighborhood.Add(this, SelfOrganizingMap.BLOCK_RADIUS_START - blockRadius);
-                blockRadius--;
-                if (blockRadius > 1)
+                neighborhood.Add(this, currentRadius);
+                currentRadius++;
+                if (blockRadius > currentRadius)
                 {
                     foreach (Neuron n in Neighbours)
                     {
-                        n.GetNeighborhood(blockRadius, neighborhood);
+                        n.GetNeighborhood(blockRadius, currentRadius, neighborhood);
                     } 
                 }
             }

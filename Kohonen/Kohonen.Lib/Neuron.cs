@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -79,13 +80,13 @@ namespace Kohonen.Lib
             ellipse.Stroke = null;
         }
 
-        internal Dictionary<Neuron, double> GetNeighborhood(double blockRadius, double currentRadius, Dictionary<Neuron, double> neighborhood)
+        public Dictionary<Neuron, double> GetNeighborhood(double blockRadius, double currentRadius, Dictionary<Neuron, double> neighborhood)
         {
             if (!neighborhood.ContainsKey(this))
             {
                 neighborhood.Add(this, currentRadius);
                 currentRadius++;
-                if (blockRadius > currentRadius)
+                if (blockRadius >= currentRadius)
                 {
                     foreach (Neuron n in Neighbours)
                     {
@@ -94,6 +95,12 @@ namespace Kohonen.Lib
                 }
             }
             return neighborhood;
+        }
+
+        public override string ToString()
+        {
+            return String.Format("Neuron ID={0}, Position={1}/{2}, Neighbors={3}",
+                ID, Position.X, Position.Y, string.Join(",",Neighbours.Select(n => n.ID).ToArray()));
         }
     }
 }

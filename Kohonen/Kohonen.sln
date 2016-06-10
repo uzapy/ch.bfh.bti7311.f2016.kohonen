@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kohonen.Data", "Kohonen.Dat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kohonen.Lib", "Kohonen.Lib\Kohonen.Lib.csproj", "{C0770A16-6B82-4ABD-9651-CEE4D4655C97}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kohonen.Test", "Kohonen.Test\Kohonen.Test.csproj", "{08843509-602C-4EE6-B1C2-F1557EC03D7F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C0770A16-6B82-4ABD-9651-CEE4D4655C97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0770A16-6B82-4ABD-9651-CEE4D4655C97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0770A16-6B82-4ABD-9651-CEE4D4655C97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08843509-602C-4EE6-B1C2-F1557EC03D7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08843509-602C-4EE6-B1C2-F1557EC03D7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08843509-602C-4EE6-B1C2-F1557EC03D7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08843509-602C-4EE6-B1C2-F1557EC03D7F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

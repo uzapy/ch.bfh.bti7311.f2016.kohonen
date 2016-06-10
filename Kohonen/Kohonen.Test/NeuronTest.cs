@@ -52,7 +52,7 @@ namespace Kohonen.Test
             neighborhood.Clear();
 
             neighborhood = first.GetNeighborhood(5, 0, neighborhood);
-            //Assert.IsTrue(neighborhood.Count == 15);
+            Assert.IsTrue(neighborhood.Count == 15);
 
             neighborhood.Clear();
 

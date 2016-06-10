@@ -85,13 +85,18 @@ namespace Kohonen.Lib
             if (!neighborhood.ContainsKey(this))
             {
                 neighborhood.Add(this, currentRadius);
-                currentRadius++;
-                if (blockRadius >= currentRadius)
+            }
+            else if (neighborhood[this] > currentRadius)
+            {
+                neighborhood[this] = currentRadius;
+            }
+
+            currentRadius++;
+            if (blockRadius >= currentRadius)
+            {
+                foreach (Neuron n in Neighbours)
                 {
-                    foreach (Neuron n in Neighbours)
-                    {
-                        n.GetNeighborhood(blockRadius, currentRadius, neighborhood);
-                    }
+                    n.GetNeighborhood(blockRadius, currentRadius, neighborhood);
                 }
             }
             return neighborhood;

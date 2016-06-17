@@ -80,32 +80,45 @@ namespace Kohonen.Lib
             ellipse.Stroke = null;
         }
 
-        public Dictionary<Neuron, double> GetNeighborhood(double blockRadius, double currentRadius, Dictionary<Neuron, double> neighborhood)
+        public Dictionary<Neuron, double> GetNeighborhood(double blockRadius)
         {
-            if (!neighborhood.ContainsKey(this))
-            {
-                neighborhood.Add(this, currentRadius);
-            }
-            else if (neighborhood[this] > currentRadius)
-            {
-                neighborhood[this] = currentRadius;
-            }
+            Dictionary<Neuron, double> neighborhood = new Dictionary<Neuron, double>();
+            double currentRadius = 0;
 
-            currentRadius++;
-            if (blockRadius >= currentRadius)
+            neighborhood.Add(this, currentRadius);
+            List<Neuron> currentCircle = new List<Neuron>();
+            List<Neuron> nextCircle = new List<Neuron>();
+            currentCircle.AddRange(Neighbours);
+
+            do
             {
-                foreach (Neuron n in Neighbours)
+                currentRadius++;
+                foreach (Neuron n in currentCircle)
                 {
-                    n.GetNeighborhood(blockRadius, currentRadius, neighborhood);
+                    neighborhood.Add(n, currentRadius);
+
+                    foreach (Neuron m in n.Neighbours)
+                    {
+                        if (!neighborhood.Keys.Contains(m) && !nextCircle.Contains(m))
+                        {
+                            nextCircle.Add(m);
+                        }
+                    }
                 }
-            }
+
+                currentCircle.Clear();
+                currentCircle.AddRange(nextCircle);
+                nextCircle.Clear();
+
+            } while (currentRadius < blockRadius);
+
             return neighborhood;
         }
 
         public override string ToString()
         {
             return String.Format("Neuron ID={0}, Position={1}/{2}, Neighbors={3}",
-                ID, Position.X, Position.Y, string.Join(",",Neighbours.Select(n => n.ID).ToArray()));
+                ID, Math.Round(Position.X, 0), Math.Round(Position.Y, 0), string.Join(",",Neighbours.Select(n => n.ID).ToArray()));
         }
     }
 }

@@ -138,7 +138,7 @@ namespace Kohonen.Lib
                 Neuron closest = NeuronMap.OrderBy(n => (n.Position - iris.Position).Length).First();
 
                 // Alle Nachbaren innerhalb des Blockradius des gewählten Neurons (inklusive selbst) auslesen.
-                Neighborhood = closest.GetNeighborhood(BlockRadius, 0, new Dictionary<Neuron, double>());
+                Neighborhood = closest.GetNeighborhood(BlockRadius);
 
                 // Neuron und dessen Nachbarschaft ein Stück in die Richtung des Input-Vektors bewegen
                 foreach (KeyValuePair<Neuron, double> n in Neighborhood)

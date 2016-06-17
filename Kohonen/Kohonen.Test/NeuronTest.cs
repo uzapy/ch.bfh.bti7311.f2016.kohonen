@@ -36,27 +36,27 @@ namespace Kohonen.Test
 
             Neuron first = neurons.First();
 
-            neighborhood = first.GetNeighborhood(2, 0, neighborhood);
+            neighborhood = first.GetNeighborhood(2);
             Assert.IsTrue(neighborhood.Count == 6);
 
             neighborhood.Clear();
 
-            neighborhood = first.GetNeighborhood(3, 0, neighborhood);
+            neighborhood = first.GetNeighborhood(3);
             Assert.IsTrue(neighborhood.Count == 10);
 
             neighborhood.Clear();
 
-            neighborhood = first.GetNeighborhood(4, 0, neighborhood);
+            neighborhood = first.GetNeighborhood(4);
             Assert.IsTrue(neighborhood.Count == 13);
 
             neighborhood.Clear();
 
-            neighborhood = first.GetNeighborhood(5, 0, neighborhood);
+            neighborhood = first.GetNeighborhood(5);
             Assert.IsTrue(neighborhood.Count == 15);
 
             neighborhood.Clear();
 
-            neighborhood = first.GetNeighborhood(6, 0, neighborhood);
+            neighborhood = first.GetNeighborhood(6);
             Assert.IsTrue(neighborhood.Count == 16);
         }
     }
